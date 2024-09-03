@@ -21,9 +21,10 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
 
+    api = Api(app)
+
     # import and initialize routes
     from .routes import initialize_routes
-    api = Api(app)
     initialize_routes(api)
 
     return app
