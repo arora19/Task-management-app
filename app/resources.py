@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required
+# from flask_jwt_extended import jwt_required
 from .models import db, User, Task
 
 # request parsers
@@ -12,7 +12,7 @@ user_parser.add_argument('password', type=str, required=True, help='Password is 
 task_parser = reqparse.RequestParser()
 task_parser.add_argument('title', type=str, required=True, help='Title is required')
 task_parser.add_argument('description', type=str)
-task_parser.add_argument('due_date', type=str) # may need to parse this to datetime
+task_parser.add_argument('due_date', type=str)  # may need to parse this to datetime
 task_parser.add_argument('priority', type=str, choices=['Low', 'Normal', 'High'], default='Normal')
 task_parser.add_argument('status', type=str, choices=['Pending', 'Completed'], default='Pending')
 task_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
@@ -23,7 +23,7 @@ class UserResource(Resource):
     def get(self, user_id):
         user = User.query.get(user_id)
         if not user:
-            return {'message': 'User not found'}, 404 # error
+            return {'message': 'User not found'}, 404  # error
         return {'id': user.id, 'username': user.username}, 200
 
     # Handles POST requests to create a new user
@@ -35,6 +35,7 @@ class UserResource(Resource):
         db.session.add(new_user)
         db.session.commit()
         return {'id': new_user.id, 'username': new_user.username}, 201
+
 
 class TaskResource(Resource):
     # handles GET requests to retrieve a task by its ID
@@ -58,7 +59,7 @@ class TaskResource(Resource):
         new_task = Task(
             title=args['title'],
             description=args['description'],
-            due_date=args['due_date'], # might need to parse to datetime object
+            due_date=args['due_date'],  # might need to parse to datetime object
             priority=args['priority'],
             status=args['status'],
             user_id=args['user_id']

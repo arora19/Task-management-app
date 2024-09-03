@@ -1,6 +1,7 @@
 from flask_restful import Api
 from .resources import UserResource, TaskResource
 
+
 def initialize_routes(api: Api):
     # route for managing a single user
     api.add_resource(UserResource, '/users/<int:user_id>', endpoint='user')
