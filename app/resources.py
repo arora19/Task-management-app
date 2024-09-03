@@ -47,7 +47,7 @@ class TaskResource(Resource):
             'id': task.id,
             'title': task.title,
             'description': task.description,
-            'due_date': task.due_date,
+            'due_date': task.due_date.isoformat(),
             'priority': task.priority,
             'status': task.status,
             'user_id': task.user_id
@@ -56,6 +56,7 @@ class TaskResource(Resource):
     # Handles POST requests to create a new task
     def post(self):
         args = task_parser.parse_args()
+        due_date = datetime.fromisoformat(args['due_date']) if args['due_date'] else None
         new_task = Task(
             title=args['title'],
             description=args['description'],
