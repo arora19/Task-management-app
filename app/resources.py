@@ -18,7 +18,7 @@ task_parser.add_argument('status', type=str, choices=['Pending', 'Completed'], d
 task_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
 
 
-class UserResources(Resource):
+class UserResource(Resource):
     # handles GET requests to retrieve a user by their ID
     def get(self, user_id):
         user = User.query.get(user_id)
@@ -28,7 +28,7 @@ class UserResources(Resource):
 
     # Handles POST requests to create a new user
     def post(self):
-        args = user.parser_args()
+        args = user_parser.parse_args()
         if User.query.filter_by(username=args['username']).first():
             return {'message': 'Username already exists'}, 400
         new_user = User(username=args['username'], password=args['password'])
