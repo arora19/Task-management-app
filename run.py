@@ -13,16 +13,17 @@ initialize_routes(api)
 '''
 # create the database tables
 with app.app_context():
+    # db.drop_all()
     print("Entering app context...")
     db.create_all()
     print("Tables created")
 
     # Use SQLAlchemy's inspector to list tables
-    inspector = inspect(db.engine)
-    tables = inspector.get_table_names()
-    print(f"Tables in database: {tables}")
+    # inspector = inspect(db.engine)
+    # tables = inspector.get_table_names()
+    # print(f"Tables in database: {tables}")
 
-    db.session.commit()
+    # db.session.commit()
 
 if __name__ == '__main__':
     app.run(debug=True)
