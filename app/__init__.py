@@ -14,6 +14,7 @@ def create_app():
 
     # configure the app(add your configs here)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'  # using sqlite for simplicity
+    app.config['SQLALCHEMY_ECHO'] = True  # to check sql statements executed
     app.config['SECRET_KEY'] = 'your_secret_key'  # replace with strong secret key
     app.config['JWT_SECRET_KEY'] = 'your_swt_secret_key'  # replace with a strong JWT secret key
 
