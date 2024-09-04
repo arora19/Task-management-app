@@ -36,6 +36,24 @@ class UserResource(Resource):
         db.session.commit()
         return {'id': new_user.id, 'username': new_user.username}, 201
 
+    def put(self, user_id):
+        args = user_parser.parse_args()
+        user = User.query.get(user_id)
+        if not user:
+            return {'message': 'User not found'}, 404
+        user.username = args['username']
+        user.password = args['password']
+        db.session.commit()
+        return {'id': user.id, 'username': user.username}, 200
+
+    def delete(self, user_id):
+        user = User.query.get(user_id)
+        if not user:
+            return {'message': 'User not found'}, 404
+        db.session.delete(user)
+        db.session.commit()
+        return {'message': 'User deleted'}, 200
+
 
 class TaskResource(Resource):
     # handles GET requests to retrieve a task by its ID
@@ -68,3 +86,23 @@ class TaskResource(Resource):
         db.session.add(new_task)
         db.session.commit()
         return {'id': new_task.id, 'title': new_task.title}, 201
+
+    def put(self, task_id):
+        args = task_parser.parse_args()
+        task = Task.query.get(task_id)
+        if not task:
+            return {'message': 'Task not found'}, 404
+        task.title = args['title']
+        task.description = args['description']
+        task.status = args['status']
+        task.user_id = args['user_id']
+        db.session.commit()
+        return {'id': task.id, 'title': task.title}, 200
+
+    def delete(self, task_id):
+        task = Task.query.get(task_id)
+        if not task:
+            return {'message': 'Task not found'}, 404
+        db.session.delete(task)
+        db.session.commit()
+        return {'message': 'Task deleted'}, 200
