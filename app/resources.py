@@ -12,8 +12,8 @@ user_parser.add_argument('password', type=str, required=True, help='Password is 
 task_parser = reqparse.RequestParser()
 task_parser.add_argument('title', type=str, required=True, help='Title is required')
 task_parser.add_argument('description', type=str)
-task_parser.add_argument('due_date', type=str)  # may need to parse this to datetime
-task_parser.add_argument('priority', type=str, choices=['Low', 'Normal', 'High'], default='Normal')
+# task_parser.add_argument('due_date', type=str)  # may need to parse this to datetime
+# task_parser.add_argument('priority', type=str, choices=['Low', 'Normal', 'High'], default='Normal')
 task_parser.add_argument('status', type=str, choices=['Pending', 'Completed'], default='Pending')
 task_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
 
@@ -36,6 +36,7 @@ class UserResource(Resource):
         db.session.commit()
         return {'id': new_user.id, 'username': new_user.username}, 201
 
+    # Handles PUT requests to update a user by their ID
     def put(self, user_id):
         args = user_parser.parse_args()
         user = User.query.get(user_id)
@@ -46,6 +47,7 @@ class UserResource(Resource):
         db.session.commit()
         return {'id': user.id, 'username': user.username}, 200
 
+    # Handles DELETE requests to delte a user by thier ID
     def delete(self, user_id):
         user = User.query.get(user_id)
         if not user:
@@ -87,6 +89,7 @@ class TaskResource(Resource):
         db.session.commit()
         return {'id': new_task.id, 'title': new_task.title}, 201
 
+    # Handles PUT requests to update a user by their ID
     def put(self, task_id):
         args = task_parser.parse_args()
         task = Task.query.get(task_id)
@@ -99,6 +102,7 @@ class TaskResource(Resource):
         db.session.commit()
         return {'id': task.id, 'title': task.title}, 200
 
+    # Handles DELETE requests to delte a user by thier ID
     def delete(self, task_id):
         task = Task.query.get(task_id)
         if not task:
